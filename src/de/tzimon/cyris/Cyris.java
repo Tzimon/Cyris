@@ -1,5 +1,6 @@
 package de.tzimon.cyris;
 
+import de.tzimon.cyris.travel.TravelCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Cyris extends JavaPlugin {
@@ -15,7 +16,11 @@ public class Cyris extends JavaPlugin {
     }
 
     public void onEnable() {
+        loadCommands();
+    }
 
+    private void loadCommands() {
+        getCommand("travel").setExecutor(new TravelCommand());
     }
 
     public static Cyris getPlugin() {

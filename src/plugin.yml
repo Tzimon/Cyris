@@ -1,0 +1,12 @@
+name: Tzimon
+version: "1.0"
+main: de.tzimon.cyris.Cyris
+author: Tzimon
+authors:
+  - Tzimon
+  - xQuiesel
+
+commands:
+  travel:
+    usage: /travel <X> <Z>
+    description: Shows the direct way to the destination

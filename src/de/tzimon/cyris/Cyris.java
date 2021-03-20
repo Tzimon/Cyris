@@ -1,6 +1,5 @@
 package de.tzimon.cyris;
 
-import de.tzimon.cyris.travel.TravelCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Cyris extends JavaPlugin {
@@ -10,6 +9,7 @@ public class Cyris extends JavaPlugin {
     public String prefix = "§cCyris §8| §r";
     public String noPlayer = "§cDu musst ein Spieler sein";
     public String noPermission = "§cDu hast keine Berechtigung das zu tun";
+    public String invalidNumber(String s) { return "§c" + s + " ist keine gültige Zahl"; }
 
     public Cyris() {
         plugin = this;
@@ -20,7 +20,11 @@ public class Cyris extends JavaPlugin {
     }
 
     private void loadCommands() {
-        getCommand("travel").setExecutor(new TravelCommand());
+
+    }
+
+    private void loadListeners() {
+
     }
 
     public static Cyris getPlugin() {

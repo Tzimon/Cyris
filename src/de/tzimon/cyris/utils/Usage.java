@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 
 public enum Usage {
 
-    TRAVEL;
+    ;
 
     private Cyris plugin;
 
@@ -17,9 +17,8 @@ public enum Usage {
         sendTitle(sender);
 
         switch (this) {
-            case TRAVEL:
-                sendLine(sender, "travel <X> <Z>", "Zeigt den direkten Weg zum Ziel");
-                break;
+            default:
+                sender.sendMessage("§cKeine Hilfe verfügbar");
         }
     }
 

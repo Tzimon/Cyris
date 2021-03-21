@@ -7,6 +7,17 @@ authors:
   - xQuiesel
 
 commands:
-  travel:
-    usage: /travel <X> <Z>
-    description: Shows the direct way to the destination
+  home:
+    usage: /home <HomeName|HomeID>
+    description: Teleports you to your home
+  sethome:
+    usage: /sethome <HomeName>
+    description: Creates a home or replaces an existing one
+  deletehome:
+    usage: /deletehome <HomeName|HomeID>
+    description: Deletes a home
+    aliases: [delhome]
+  homes:
+    usage: /homes
+    description: Shows you a list of all your homes
+    aliases: [homelist]

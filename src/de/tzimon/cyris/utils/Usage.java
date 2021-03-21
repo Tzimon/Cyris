@@ -5,7 +5,8 @@ import org.bukkit.command.CommandSender;
 
 public enum Usage {
 
-    ;
+    HOME,
+    SET_HOME;
 
     private Cyris plugin;
 
@@ -17,6 +18,12 @@ public enum Usage {
         sendTitle(sender);
 
         switch (this) {
+            case HOME:
+                sendLine(sender, "home <HomeName|HomeID>", "Teleports you to one of your homes");
+                break;
+            case SET_HOME:
+                sendLine(sender, "sethome <HomeName>", "Creates a home or replaces an existing one");
+                break;
             default:
                 sender.sendMessage("§cKeine Hilfe verfügbar");
         }

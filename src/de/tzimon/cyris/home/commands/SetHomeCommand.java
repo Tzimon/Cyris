@@ -36,6 +36,12 @@ public class SetHomeCommand implements CommandExecutor {
         Set<Home> homes = plugin.getHomeManager().getHomes(player.getUniqueId());
         String homeName = args[0];
 
+        if (homeName.length() > HomeManager.MAX_HOME_NAME_LENGTH) {
+            player.sendMessage(plugin.prefix + "§cDer Name deines Homes darf maximal " + HomeManager.MAX_HOME_NAME_LENGTH
+                    + " Zeichen lang sein");
+            return true;
+        }
+
         for (Home home : homes) {
             if (home.getName().equalsIgnoreCase(homeName))
                 plugin.getHomeManager().deleteHome(home);
@@ -47,10 +53,11 @@ public class SetHomeCommand implements CommandExecutor {
         }
 
         Location location = player.getLocation();
-        Home home = new Home(player.getUniqueId(), plugin.getHomeManager().getNextId(player.getUniqueId()), homeName,
-                location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getUID());
-
+        Home home = new Home(player.getUniqueId(), plugin.getHomeManager().getNextId(player.getUniqueId()), homeName, location);
         plugin.getHomeManager().createHome(home);
+
+        player.sendMessage(plugin.prefix + "§7Das Home mit dem Namen §6" + homeName + " §8[§e" + home.getId() +
+                "§8] §7wurde erstellt");
         return true;
     }
 

@@ -1,18 +1,19 @@
 package de.tzimon.cyris.home;
 
 import de.tzimon.cyris.Cyris;
-import de.tzimon.cyris.utils.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HomeManager {
 
     public static final int MAX_HOMES = 20;
+    public static final int MAX_HOME_NAME_LENGTH = 50;
 
     private Cyris plugin;
 
@@ -32,11 +33,13 @@ public class HomeManager {
                 "CREATE TABLE IF NOT EXISTS `cyris`.`home` (" +
                         "`id` INT(2) UNSIGNED NOT NULL, " +
                         "`owner_uuid` VARCHAR(36) NOT NULL, " +
-                        "`name` VARCHAR(50) NULL, " +
-                        "`x` INT NOT NULL, " +
-                        "`y` INT NOT NULL, " +
-                        "`z` INT NOT NULL, " +
-                        "`world` VARCHAR(36) NOT NULL, " +
+                        "`name` VARCHAR(" + MAX_HOME_NAME_LENGTH + ") NULL, " +
+                        "`world_uuid` VARCHAR(36) NOT NULL, " +
+                        "`x` DOUBLE NOT NULL, " +
+                        "`y` DOUBLE NOT NULL, " +
+                        "`z` DOUBLE NOT NULL, " +
+                        "`yaw` FLOAT NOT NULL, " +
+                        "`pitch` FLOAT NOT NULL, " +
                         "PRIMARY KEY(`id`));");
 
         ResultSet homeSet = plugin.getSqlManager().executeQuery(connection, "SELECT * FROM `cyris`.`home`;");
@@ -46,14 +49,10 @@ public class HomeManager {
 
         try {
             while (homeSet.next()) {
-                Home home = new Home(
-                        UUID.fromString(homeSet.getString("owner_uuid")),
-                        homeSet.getInt("id"),
-                        homeSet.getString("name"),
-                        homeSet.getInt("x"),
-                        homeSet.getInt("y"),
-                        homeSet.getInt("z"),
-                        UUID.fromString(homeSet.getString("world")));
+                Home home = new Home(UUID.fromString(homeSet.getString("owner_uuid")), homeSet.getInt("id"),
+                        homeSet.getString("name"), new Location(Bukkit.getWorld(UUID.fromString(homeSet.getString("world_uuid"))),
+                        homeSet.getDouble("x"), homeSet.getDouble("y"), homeSet.getDouble("z"), homeSet.getFloat("yaw"),
+                        homeSet.getFloat("pitch")));
 
                 homes.add(home);
             }
@@ -71,8 +70,10 @@ public class HomeManager {
         plugin.getSqlManager().executeUpdate(connection, "TRUNCATE `cyris`.`home`;");
 
         homes.forEach(home -> plugin.getSqlManager().executeUpdate(connection, "INSERT INTO `cyris`.`home` VALUES (" +
-                home.getId() + ", '" + home.getOwner().toString() + "', '" + home.getName() + "', " + home.getX() + ", " +
-                home.getY() + ", " + home.getZ() + ", '" + home.getWorld().toString() + "');"));
+            home.getId() + ", '" + home.getOwner().toString() + "', '" + home.getName() + "', '" + home.getLocation()
+            .getWorld().getUID() + "', " + home.getLocation().getX() + ", " + home.getLocation().getY() + ", " +
+            home.getLocation().getZ() + ", " + home.getLocation().getYaw() + ", " + home.getLocation().getPitch() +
+            ");"));
     }
 
     public Set<Home> getHomes(UUID uuid) {
@@ -84,6 +85,10 @@ public class HomeManager {
         });
 
         return homes;
+    }
+
+    public List<Home> getHomesSorted(UUID uuid) {
+        return getHomes(uuid).stream().sorted(Comparator.comparingInt(Home::getId)).collect(Collectors.toList());
     }
 
     public Home getHome(UUID uuid, String homeName) {
@@ -115,10 +120,9 @@ public class HomeManager {
     }
 
     public int getNextId(UUID uuid) {
-        Stream<Home> homes = getHomes(uuid).stream().sorted(Comparator.comparingInt(Home::getId));
-        int id = 0;
+        int id = 1;
 
-        for (Home home : homes.collect(Collectors.toSet())) {
+        for (Home home : getHomesSorted(uuid)) {
             if (home.getId() > id)
                 break;
 

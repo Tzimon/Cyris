@@ -1,7 +1,9 @@
 package de.tzimon.cyris;
 
 import de.tzimon.cyris.home.HomeManager;
+import de.tzimon.cyris.home.commands.DeleteHomeCommand;
 import de.tzimon.cyris.home.commands.HomeCommand;
+import de.tzimon.cyris.home.commands.HomesCommand;
 import de.tzimon.cyris.home.commands.SetHomeCommand;
 import de.tzimon.cyris.utils.SqlManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,7 +48,9 @@ public class Cyris extends JavaPlugin {
     }
 
     private void loadCommands() {
+        getCommand("deletehome").setExecutor(new DeleteHomeCommand());
         getCommand("home").setExecutor(new HomeCommand());
+        getCommand("homes").setExecutor(new HomesCommand());
         getCommand("sethome").setExecutor(new SetHomeCommand());
     }
 

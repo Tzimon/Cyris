@@ -36,11 +36,11 @@ public class HomeCommand implements CommandExecutor {
         Home home = plugin.getHomeManager().getHome(player.getUniqueId(), args[0]);
 
         if (home == null) {
-            player.sendMessage("§cDu hast kein Home mit dem Namen oder der ID " + args[0]);
+            player.sendMessage(plugin.prefix + "§cDu hast kein Home mit dem Namen oder der ID " + args[0]);
             return true;
         }
 
-        player.teleport(new Location(Bukkit.getWorld(home.getWorld()), home.getX(), home.getY(), home.getZ()));
+        player.teleport(home.getLocation());
         return true;
     }
 

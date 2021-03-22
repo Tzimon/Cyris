@@ -5,6 +5,7 @@ import de.tzimon.cyris.home.commands.DeleteHomeCommand;
 import de.tzimon.cyris.home.commands.HomeCommand;
 import de.tzimon.cyris.home.commands.HomesCommand;
 import de.tzimon.cyris.home.commands.SetHomeCommand;
+import de.tzimon.cyris.utils.SaveLoop;
 import de.tzimon.cyris.utils.SqlManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,8 +16,8 @@ public class Cyris extends JavaPlugin {
     public String prefix = "§cCyris §8| §r";
     public String noPlayer = "§cDu musst ein Spieler sein";
     public String noPermission = "§cDu hast keine Berechtigung das zu tun";
-    public String invalidNumber(String s) { return "§c" + s + " ist keine gültige Zahl"; }
 
+    private SaveLoop saveLoop;
     private SqlManager sqlManager;
     private HomeManager homeManager;
 
@@ -27,14 +28,17 @@ public class Cyris extends JavaPlugin {
     public void onEnable() {
         loadConfig();
         loadCommands();
-        loadListeners();
 
+        saveLoop = new SaveLoop();
         sqlManager = new SqlManager();
         homeManager = new HomeManager();
+
+        saveLoop.addSavable(homeManager);
+        saveLoop.start();
     }
 
     public void onDisable() {
-        homeManager.save();
+        saveLoop.saveAll();
     }
 
     private void loadConfig() {
@@ -52,9 +56,6 @@ public class Cyris extends JavaPlugin {
         getCommand("home").setExecutor(new HomeCommand());
         getCommand("homes").setExecutor(new HomesCommand());
         getCommand("sethome").setExecutor(new SetHomeCommand());
-    }
-
-    private void loadListeners() {
     }
 
     public static Cyris getPlugin() {

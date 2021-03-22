@@ -1,6 +1,7 @@
 package de.tzimon.cyris.home;
 
 import de.tzimon.cyris.Cyris;
+import de.tzimon.cyris.utils.Savable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HomeManager {
+public class HomeManager implements Savable {
 
     public static final int MAX_HOMES = 20;
     public static final int MAX_HOME_NAME_LENGTH = 50;

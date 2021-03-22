@@ -24,7 +24,8 @@ public class SqlManager {
 
     public Connection connect() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port, username, password);
+            return DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "?autoReconnect=true&useSSL=false",
+                    username, password);
         } catch (SQLException ignored) {
             Logger.error("Unable to connect to mysql server");
             return null;

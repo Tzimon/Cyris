@@ -33,7 +33,7 @@ public class HomesCommand implements CommandExecutor {
             return true;
         }
 
-        player.sendMessage(plugin.prefix + "§6§lHomes (" + homes.size() + "/" + HomeManager.MAX_HOMES + "):");
+        player.sendMessage(plugin.prefix + "§6§lHomes §8(§6" + homes.size() + "§7/§6" + HomeManager.MAX_HOMES + "§8)§6§l:");
 
         homes.forEach(home -> {
             Location location = home.getLocation();

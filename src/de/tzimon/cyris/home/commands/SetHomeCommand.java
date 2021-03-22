@@ -36,6 +36,12 @@ public class SetHomeCommand implements CommandExecutor {
         Set<Home> homes = plugin.getHomeManager().getHomes(player.getUniqueId());
         String homeName = args[0];
 
+        try {
+            Integer.parseInt(homeName);
+            player.sendMessage("§cDer Name deines Homes darf keine Zahl sein");
+            return true;
+        } catch (NumberFormatException ignored) {}
+
         if (homeName.length() > HomeManager.MAX_HOME_NAME_LENGTH) {
             player.sendMessage(plugin.prefix + "§cDer Name deines Homes darf maximal " + HomeManager.MAX_HOME_NAME_LENGTH
                     + " Zeichen lang sein");
@@ -57,7 +63,7 @@ public class SetHomeCommand implements CommandExecutor {
         plugin.getHomeManager().createHome(home);
 
         player.sendMessage(plugin.prefix + "§7Das Home mit dem Namen §6" + homeName + " §8[§e" + home.getId() +
-                "§8] §7wurde erstellt");
+                "§8] §7wurde gesetzt");
         return true;
     }
 

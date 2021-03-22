@@ -31,8 +31,8 @@ public class HomeManager {
 
         plugin.getSqlManager().executeUpdate(connection,
                 "CREATE TABLE IF NOT EXISTS `cyris`.`home` (" +
-                        "`id` INT(2) UNSIGNED NOT NULL, " +
                         "`owner_uuid` VARCHAR(36) NOT NULL, " +
+                        "`id` INT(2) UNSIGNED NOT NULL, " +
                         "`name` VARCHAR(" + MAX_HOME_NAME_LENGTH + ") NULL, " +
                         "`world_uuid` VARCHAR(36) NOT NULL, " +
                         "`x` DOUBLE NOT NULL, " +
@@ -40,7 +40,7 @@ public class HomeManager {
                         "`z` DOUBLE NOT NULL, " +
                         "`yaw` FLOAT NOT NULL, " +
                         "`pitch` FLOAT NOT NULL, " +
-                        "PRIMARY KEY(`id`));");
+                        "PRIMARY KEY(`owner_uuid`, `id`));");
 
         ResultSet homeSet = plugin.getSqlManager().executeQuery(connection, "SELECT * FROM `cyris`.`home`;");
 
@@ -69,8 +69,8 @@ public class HomeManager {
 
         plugin.getSqlManager().executeUpdate(connection, "TRUNCATE `cyris`.`home`;");
 
-        homes.forEach(home -> plugin.getSqlManager().executeUpdate(connection, "INSERT INTO `cyris`.`home` VALUES (" +
-            home.getId() + ", '" + home.getOwner().toString() + "', '" + home.getName() + "', '" + home.getLocation()
+        homes.forEach(home -> plugin.getSqlManager().executeUpdate(connection, "INSERT INTO `cyris`.`home` VALUES ('"
+                + home.getOwner().toString() + "', " + home.getId() + ", '" + home.getName() + "', '" + home.getLocation()
             .getWorld().getUID() + "', " + home.getLocation().getX() + ", " + home.getLocation().getY() + ", " +
             home.getLocation().getZ() + ", " + home.getLocation().getYaw() + ", " + home.getLocation().getPitch() +
             ");"));

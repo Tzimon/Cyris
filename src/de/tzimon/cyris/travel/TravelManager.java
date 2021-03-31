@@ -26,20 +26,20 @@ public class TravelManager {
 
     public void start() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Cyris.getPlugin(), () -> {
-            Set<UUID> remove = new HashSet<>();
+//            Set<UUID> remove = new HashSet<>();
 
             destinations.forEach((uuid, destination) -> {
                 Player player = Bukkit.getPlayer(uuid);
 
                 if (player == null || !player.isOnline()) {
-                    remove.add(uuid);
+//                    remove.add(uuid);
                     return;
                 }
 
                 display(player, destination);
             });
 
-            remove.forEach(destinations::remove);
+//            remove.forEach(destinations::remove);
         }, 0, 1);
     }
 

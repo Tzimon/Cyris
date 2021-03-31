@@ -7,7 +7,8 @@ public enum Usage {
 
     HOME,
     SET_HOME,
-    DELETE_HOME;
+    DELETE_HOME,
+    TRAVEL;
 
     private Cyris plugin;
 
@@ -27,6 +28,10 @@ public enum Usage {
                 break;
             case DELETE_HOME:
                 sendLine(sender, "deletehome <HomeName>", "Löscht ein vorhandenes Home");
+                break;
+            case TRAVEL:
+                sendLine(sender, "travel", "Löscht den aktuellen Travelpunkt");
+                sendLine(sender, "travel <X> <Z>", "Erstellt einen neuen Travelpunkt");
                 break;
             default:
                 sender.sendMessage("§cKeine Hilfe verfügbar");

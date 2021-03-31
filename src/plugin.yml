@@ -21,3 +21,6 @@ commands:
     usage: /homes
     description: Shows you a list of all your homes
     aliases: [homelist]
+  travel:
+    usage: /travel [<X> <Z>]
+    description: Creates or deletes a travel point

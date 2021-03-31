@@ -10,7 +10,7 @@ public class SaveLoop {
 
     public static final int SAVE_FREQUENCY = 30;
 
-    private Set<Savable> savables;
+    private final Set<Savable> savables;
 
     public SaveLoop() {
         savables = new HashSet<>();

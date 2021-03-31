@@ -5,6 +5,8 @@ import de.tzimon.cyris.home.commands.DeleteHomeCommand;
 import de.tzimon.cyris.home.commands.HomeCommand;
 import de.tzimon.cyris.home.commands.HomesCommand;
 import de.tzimon.cyris.home.commands.SetHomeCommand;
+import de.tzimon.cyris.travel.TravelCommand;
+import de.tzimon.cyris.travel.TravelManager;
 import de.tzimon.cyris.utils.SaveLoop;
 import de.tzimon.cyris.utils.SqlManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,10 +18,12 @@ public class Cyris extends JavaPlugin {
     public String prefix = "§cCyris §8| §r";
     public String noPlayer = "§cDu musst ein Spieler sein";
     public String noPermission = "§cDu hast keine Berechtigung das zu tun";
+    public String invalidNumber(String s) { return "§c" + s + " ist keine gültige Zahl"; }
 
     private SaveLoop saveLoop;
     private SqlManager sqlManager;
     private HomeManager homeManager;
+    private TravelManager travelManager;
 
     public Cyris() {
         plugin = this;
@@ -32,9 +36,11 @@ public class Cyris extends JavaPlugin {
         saveLoop = new SaveLoop();
         sqlManager = new SqlManager();
         homeManager = new HomeManager();
+        travelManager = new TravelManager();
 
         saveLoop.addSavable(homeManager);
         saveLoop.start();
+        travelManager.start();
     }
 
     public void onDisable() {
@@ -56,6 +62,7 @@ public class Cyris extends JavaPlugin {
         getCommand("home").setExecutor(new HomeCommand());
         getCommand("homes").setExecutor(new HomesCommand());
         getCommand("sethome").setExecutor(new SetHomeCommand());
+        getCommand("travel").setExecutor(new TravelCommand());
     }
 
     public static Cyris getPlugin() {
@@ -68,6 +75,10 @@ public class Cyris extends JavaPlugin {
 
     public HomeManager getHomeManager() {
         return homeManager;
+    }
+
+    public TravelManager getTravelManager() {
+        return travelManager;
     }
 
 }

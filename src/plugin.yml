@@ -23,4 +23,4 @@ commands:
     aliases: [homelist]
   travel:
     usage: /travel [<X> <Z>]
-    description: Creates or deletes a travel point
+    description: Shows you the direct way to your destination

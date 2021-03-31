@@ -51,6 +51,7 @@ public class TravelCommand implements CommandExecutor {
 
             Destination destination = new Destination(x, z);
             plugin.getTravelManager().add(uuid, destination);
+            player.sendMessage(plugin.prefix + "§7Ein Travelpunkt wurde erstellt");
         } else
             Usage.TRAVEL.sendUsage(player);
 

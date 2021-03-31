@@ -31,7 +31,7 @@ public enum Usage {
                 break;
             case TRAVEL:
                 sendLine(sender, "travel", "Löscht den aktuellen Travelpunkt");
-                sendLine(sender, "travel <X> <Z>", "Erstellt einen neuen Travelpunkt");
+                sendLine(sender, "travel <X> <Z>", "Zeigt den direkten Weg zum Ziel");
                 break;
             default:
                 sender.sendMessage("§cKeine Hilfe verfügbar");
